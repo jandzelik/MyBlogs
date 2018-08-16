@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using MyBlogs.Data.Models;
 using MyBlogs.Service;
 
@@ -26,6 +20,7 @@ namespace MyBlogs.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc();
             services.AddScoped<IBlogService, BlogService>();
             services.AddDbContext<BlogDb_DevContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BlogConnection")));
@@ -38,9 +33,9 @@ namespace MyBlogs.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(
+                options => options.WithOrigins("http://localhost:4200").AllowAnyMethod());
             app.UseMvc();
-
         }
     }
 }

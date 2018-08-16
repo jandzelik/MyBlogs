@@ -18,14 +18,14 @@ namespace MyBlogs.Data.Models
         public virtual DbSet<BlogCategories> BlogCategories { get; set; }
         public virtual DbSet<BlogMaster> BlogMaster { get; set; }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Server=GXNB-PF10736M\\SQLEXPRESS;Database=BlogDb_Dev;Trusted_Connection=True;");
-//            }
-//        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=GXNB-PF10736M\\SQLEXPRESS;Database=BlogDb_Dev;Trusted_Connection=True;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,9 +42,11 @@ namespace MyBlogs.Data.Models
 
             modelBuilder.Entity<BlogMaster>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Description)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LocationUrl)
                     .HasMaxLength(500)
                     .IsUnicode(false);
 

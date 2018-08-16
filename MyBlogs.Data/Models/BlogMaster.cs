@@ -9,6 +9,7 @@ namespace MyBlogs.Data.Models
         public int CategoryId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string LocationUrl { get; set; }
 
         public BlogCategories Category { get; set; }
     }
